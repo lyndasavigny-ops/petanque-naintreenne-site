@@ -324,22 +324,26 @@ export default function LicenciesTab({ players, isAdmin, onRefresh }: LicenciesT
             <span className="hidden sm:inline">Export</span>
           </button>
 
-          <button
-            onClick={() => setShowImportModal(true)}
-            title="Importer des licenciés"
-            className="p-2 border border-slate-200 hover:bg-slate-100 rounded-xl text-slate-700 text-xs font-bold flex items-center gap-1.5 shadow-sm transition"
-          >
-            <Upload className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden sm:inline">Import</span>
-          </button>
+          {isAdmin && (
+            <>
+              <button
+                onClick={() => setShowImportModal(true)}
+                title="Importer des licenciés"
+                className="p-2 border border-slate-200 hover:bg-slate-100 rounded-xl text-slate-700 text-xs font-bold flex items-center gap-1.5 shadow-sm transition"
+              >
+                <Upload className="w-3.5 h-3.5 text-slate-600" />
+                <span className="hidden sm:inline">Import</span>
+              </button>
 
-          <button
-            onClick={openAddModal}
-            className="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Ajouter un Joueur</span>
-          </button>
+              <button
+                onClick={openAddModal}
+                className="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-1.5 transition"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Ajouter un Joueur</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -438,22 +442,26 @@ export default function LicenciesTab({ players, isAdmin, onRefresh }: LicenciesT
                 {/* Card Actions */}
                 <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
                   <span className="text-[11px] text-slate-400">Pétanque Naintreénne</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => openEditModal(player)}
-                      title="Modifier le joueur et sa photo"
-                      className="p-1.5 hover:bg-sky-100 text-sky-700 rounded-lg transition"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDeletePlayer(player.id)}
-                      title="Supprimer ce joueur"
-                      className="p-1.5 hover:bg-rose-100 text-rose-600 rounded-lg transition"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  {isAdmin ? (
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => openEditModal(player)}
+                        title="Modifier le joueur et sa photo"
+                        className="p-1.5 hover:bg-sky-100 text-sky-700 rounded-lg transition"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePlayer(player.id)}
+                        title="Supprimer ce joueur"
+                        className="p-1.5 hover:bg-rose-100 text-rose-600 rounded-lg transition"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-[10px] text-slate-400 font-medium">Licencié officiel</span>
+                  )}
                 </div>
               </div>
             );

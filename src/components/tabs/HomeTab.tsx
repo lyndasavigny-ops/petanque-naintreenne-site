@@ -236,13 +236,15 @@ export default function HomeTab({
             </div>
 
             {/* Add Slide Button */}
-            <button
-              onClick={openAddSlide}
-              className="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1 transition"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Ajouter un Slide</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={openAddSlide}
+                className="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1 transition"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Ajouter un Slide</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -281,26 +283,28 @@ export default function HomeTab({
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => openEditSlide(activeSlide)}
-                    className="p-2 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-lg flex items-center gap-1 transition"
-                    title="Modifier ce slide"
-                  >
-                    <Edit className="w-3.5 h-3.5" />
-                    <span>Modifier</span>
-                  </button>
-                  {slides.length > 1 && (
+                {isAdmin && (
+                  <div className="flex items-center gap-2">
                     <button
-                      onClick={() => handleDeleteSlide(activeSlide.id)}
-                      className="p-2 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg flex items-center gap-1 transition"
-                      title="Supprimer ce slide"
+                      onClick={() => openEditSlide(activeSlide)}
+                      className="p-2 text-xs font-bold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-lg flex items-center gap-1 transition"
+                      title="Modifier ce slide"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      <span>Supprimer</span>
+                      <Edit className="w-3.5 h-3.5" />
+                      <span>Modifier</span>
                     </button>
-                  )}
-                </div>
+                    {slides.length > 1 && (
+                      <button
+                        onClick={() => handleDeleteSlide(activeSlide.id)}
+                        className="p-2 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg flex items-center gap-1 transition"
+                        title="Supprimer ce slide"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Supprimer</span>
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

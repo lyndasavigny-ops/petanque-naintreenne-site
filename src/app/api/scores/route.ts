@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { competitions, standings, clubInfo, championshipRounds, championshipMatches } from "@/db/schema";
 import { eq, asc, desc } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
+import { seedDatabase } from "@/db/seed";
 
 // Helper: recalculate standings from all validated rounds/matches of a competition
 export async function recalculateCompetitionStandings(competitionId: number) {
@@ -154,7 +156,18 @@ export async function recalculateCompetitionStandings(competitionId: number) {
 
 export async function GET(req: NextRequest) {
   try {
-    const comps = await db.select().from(competitions).orderBy(asc(competitions.orderNum), asc(competitions.id));
+    try {
+      await ensureDatabaseTables();
+    } catch {}
+
+    let comps = await db.select().from(competitions).orderBy(asc(competitions.orderNum), asc(competitions.id));
+    if (comps.length === 0) {
+      try {
+        await seedDatabase();
+        comps = await db.select().from(competitions).orderBy(asc(competitions.orderNum), asc(competitions.id));
+      } catch {}
+    }
+
     const allStandings = await db.select().from(standings).orderBy(asc(standings.position), desc(standings.points));
     const allRounds = await db.select().from(championshipRounds).orderBy(asc(championshipRounds.orderNum), asc(championshipRounds.id));
     const allMatches = await db.select().from(championshipMatches).orderBy(asc(championshipMatches.orderNum), asc(championshipMatches.id));

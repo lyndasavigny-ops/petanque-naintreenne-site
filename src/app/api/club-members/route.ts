@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { clubMembers } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
 
 export async function GET(req: NextRequest) {
   try {
+    try {
+      await ensureDatabaseTables();
+    } catch {}
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category"); // "bureau" | "arbitre"
 

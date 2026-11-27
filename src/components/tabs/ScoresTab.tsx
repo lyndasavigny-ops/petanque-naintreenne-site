@@ -451,7 +451,7 @@ export default function ScoresTab({
             <h3 className="font-bold text-slate-800 text-sm sm:text-base">
               Barème des points{" "}
               <span className="text-xs font-normal text-slate-500">
-                (modifiez les valeurs directement)
+                {isAdmin ? "(modifiez les valeurs directement)" : "(barème officiel de la compétition)"}
               </span>
             </h3>
           </div>
@@ -473,12 +473,16 @@ export default function ScoresTab({
             <input
               type="number"
               min="0"
+              readOnly={!isAdmin}
+              disabled={!isAdmin}
               value={activeRules.pointsVictory}
               onChange={(e) => {
                 const val = Number(e.target.value) || 0;
                 handleSaveRules({ ...activeRules, pointsVictory: val });
               }}
-              className="w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-lg"
+              className={`w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none rounded-lg ${
+                isAdmin ? "focus:ring-2 focus:ring-emerald-400 cursor-text" : "cursor-default"
+              }`}
             />
           </div>
 
@@ -491,12 +495,16 @@ export default function ScoresTab({
             <input
               type="number"
               min="0"
+              readOnly={!isAdmin}
+              disabled={!isAdmin}
               value={activeRules.pointsDraw}
               onChange={(e) => {
                 const val = Number(e.target.value) || 0;
                 handleSaveRules({ ...activeRules, pointsDraw: val });
               }}
-              className="w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-300 rounded-lg"
+              className={`w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none rounded-lg ${
+                isAdmin ? "focus:ring-2 focus:ring-amber-300 cursor-text" : "cursor-default"
+              }`}
             />
           </div>
 
@@ -509,12 +517,16 @@ export default function ScoresTab({
             <input
               type="number"
               min="0"
+              readOnly={!isAdmin}
+              disabled={!isAdmin}
               value={activeRules.pointsDefeat}
               onChange={(e) => {
                 const val = Number(e.target.value) || 0;
                 handleSaveRules({ ...activeRules, pointsDefeat: val });
               }}
-              className="w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none focus:ring-2 focus:ring-rose-300 rounded-lg"
+              className={`w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none rounded-lg ${
+                isAdmin ? "focus:ring-2 focus:ring-rose-300 cursor-text" : "cursor-default"
+              }`}
             />
           </div>
 
@@ -527,12 +539,16 @@ export default function ScoresTab({
             <input
               type="number"
               min="0"
+              readOnly={!isAdmin}
+              disabled={!isAdmin}
               value={activeRules.pointsForfeit}
               onChange={(e) => {
                 const val = Number(e.target.value) || 0;
                 handleSaveRules({ ...activeRules, pointsForfeit: val });
               }}
-              className="w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none focus:ring-2 focus:ring-slate-300 rounded-lg"
+              className={`w-full text-center text-3xl sm:text-4xl font-black text-slate-800 bg-transparent focus:outline-none rounded-lg ${
+                isAdmin ? "focus:ring-2 focus:ring-slate-300 cursor-text" : "cursor-default"
+              }`}
             />
           </div>
         </div>
@@ -565,13 +581,15 @@ export default function ScoresTab({
           );
         })}
 
-        <button
-          onClick={() => setShowNewCompModal(true)}
-          className="px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-teal-600 hover:bg-teal-700 text-white transition shadow-sm flex items-center gap-1.5"
-        >
-          <Plus className="w-4 h-4" />
-          <span>+ Nouvelle compétition</span>
-        </button>
+        {isAdmin && (
+          <button
+            onClick={() => setShowNewCompModal(true)}
+            className="px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-teal-600 hover:bg-teal-700 text-white transition shadow-sm flex items-center gap-1.5"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Nouvelle compétition</span>
+          </button>
+        )}
       </div>
 
       {/* 3. Section Saisie des Scores par Rencontres (Style PHOTO 1 EXACT) */}
@@ -599,14 +617,16 @@ export default function ScoresTab({
                 </button>
               ))}
 
-              <button
-                onClick={handleAddRound}
-                title="Ajouter une nouvelle journée"
-                className="px-2.5 py-1 bg-white hover:bg-teal-50 text-teal-800 text-xs font-bold rounded-lg border border-teal-300 flex items-center gap-1 shadow-sm"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>+ Journée</span>
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={handleAddRound}
+                  title="Ajouter une nouvelle journée"
+                  className="px-2.5 py-1 bg-white hover:bg-teal-50 text-teal-800 text-xs font-bold rounded-lg border border-teal-300 flex items-center gap-1 shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Journée</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -622,13 +642,15 @@ export default function ScoresTab({
               {completedMatchesCount}/{roundMatches.length} rencontres
             </div>
 
-            <button
-              onClick={() => setShowAddMatchModal(true)}
-              className="bg-white hover:bg-teal-50 text-teal-800 border border-teal-300 font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 transition"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Rencontre</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setShowAddMatchModal(true)}
+                className="bg-white hover:bg-teal-50 text-teal-800 border border-teal-300 font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1 transition"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Rencontre</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -685,20 +707,32 @@ export default function ScoresTab({
                         type="number"
                         min="0"
                         max="36"
+                        readOnly={!isAdmin}
+                        disabled={!isAdmin}
                         value={scoreAVal}
                         onChange={(e) => handleScoreChange(m.id, "scoreA", e.target.value)}
                         placeholder="0"
-                        className="w-16 h-11 text-center font-black text-xl text-slate-800 bg-[#fafafa] border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white shadow-inner"
+                        className={`w-16 h-11 text-center font-black text-xl text-slate-800 bg-[#fafafa] border border-slate-300 rounded-lg shadow-inner ${
+                          isAdmin
+                            ? "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white cursor-text"
+                            : "cursor-default opacity-95"
+                        }`}
                       />
                       <span className="text-slate-400 font-bold text-xs uppercase px-1">vs</span>
                       <input
                         type="number"
                         min="0"
                         max="36"
+                        readOnly={!isAdmin}
+                        disabled={!isAdmin}
                         value={scoreBVal}
                         onChange={(e) => handleScoreChange(m.id, "scoreB", e.target.value)}
                         placeholder="0"
-                        className="w-16 h-11 text-center font-black text-xl text-slate-800 bg-[#fafafa] border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white shadow-inner"
+                        className={`w-16 h-11 text-center font-black text-xl text-slate-800 bg-[#fafafa] border border-slate-300 rounded-lg shadow-inner ${
+                          isAdmin
+                            ? "focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white cursor-text"
+                            : "cursor-default opacity-95"
+                        }`}
                       />
                     </div>
 
@@ -714,9 +748,10 @@ export default function ScoresTab({
                   <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100 text-xs text-slate-600">
                     <div className="flex flex-wrap items-center gap-3">
                       {/* Forfait Team A */}
-                      <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900">
+                      <label className={`flex items-center gap-1.5 ${isAdmin ? "cursor-pointer hover:text-slate-900" : "cursor-default"}`}>
                         <input
                           type="checkbox"
+                          disabled={!isAdmin}
                           checked={m.forfeitA}
                           onChange={(e) => handleForfeitToggle(m.id, "A", e.target.checked)}
                           className="rounded text-teal-600 focus:ring-teal-500 h-3.5 w-3.5"
@@ -725,9 +760,10 @@ export default function ScoresTab({
                       </label>
 
                       {/* Forfait Team B */}
-                      <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-900">
+                      <label className={`flex items-center gap-1.5 ${isAdmin ? "cursor-pointer hover:text-slate-900" : "cursor-default"}`}>
                         <input
                           type="checkbox"
+                          disabled={!isAdmin}
                           checked={m.forfeitB}
                           onChange={(e) => handleForfeitToggle(m.id, "B", e.target.checked)}
                           className="rounded text-teal-600 focus:ring-teal-500 h-3.5 w-3.5"
@@ -740,6 +776,8 @@ export default function ScoresTab({
                         <span>Parties :</span>
                         <input
                           type="number"
+                          readOnly={!isAdmin}
+                          disabled={!isAdmin}
                           value={m.partiesWonA !== null ? m.partiesWonA : ""}
                           onChange={(e) => handlePartiesChange(m.id, "A", e.target.value)}
                           placeholder="—"
@@ -748,6 +786,8 @@ export default function ScoresTab({
                         <span>/</span>
                         <input
                           type="number"
+                          readOnly={!isAdmin}
+                          disabled={!isAdmin}
                           value={m.partiesWonB !== null ? m.partiesWonB : ""}
                           onChange={(e) => handlePartiesChange(m.id, "B", e.target.value)}
                           placeholder="—"
@@ -773,12 +813,14 @@ export default function ScoresTab({
                       )}
 
                       {/* Effacer button */}
-                      <button
-                        onClick={() => handleClearScore(m.id)}
-                        className="px-2.5 py-1 text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md border border-slate-200 transition"
-                      >
-                        Effacer
-                      </button>
+                      {isAdmin && (
+                        <button
+                          onClick={() => handleClearScore(m.id)}
+                          className="px-2.5 py-1 text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md border border-slate-200 transition"
+                        >
+                          Effacer
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -813,13 +855,15 @@ export default function ScoresTab({
               <span>Export Excel</span>
             </button>
 
-            <button
-              onClick={() => setShowAddClubModal(true)}
-              className="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-sm flex items-center gap-1.5 transition"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Ajouter une équipe</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setShowAddClubModal(true)}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-sm flex items-center gap-1.5 transition"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Ajouter une équipe</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -940,10 +984,14 @@ export default function ScoresTab({
                       <td className="py-3.5 px-3 text-center bg-amber-50/40">
                         <input
                           type="text"
+                          readOnly={!isAdmin}
+                          disabled={!isAdmin}
                           defaultValue={s.manualRank || "—"}
-                          onBlur={(e) => handleManualRankChange(s.id, e.target.value)}
+                          onBlur={(e) => isAdmin && handleManualRankChange(s.id, e.target.value)}
                           placeholder="—"
-                          className="w-14 h-7 text-center text-xs font-bold text-slate-700 bg-white border border-amber-300 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-500 shadow-sm mx-auto block"
+                          className={`w-14 h-7 text-center text-xs font-bold text-slate-700 bg-white border border-amber-300 rounded-md shadow-sm mx-auto block ${
+                            isAdmin ? "focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-text" : "cursor-default"
+                          }`}
                         />
                       </td>
                     </tr>

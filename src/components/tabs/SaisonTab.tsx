@@ -347,29 +347,35 @@ export default function SaisonTab({ teams, matches, isAdmin, onRefresh }: Saison
               >
                 <Download className="w-3.5 h-3.5" />
               </button>
-              <button
-                onClick={() => setShowImportModal(true)}
-                title="Importer des équipes"
-                className="p-2 border border-slate-200 hover:bg-slate-100 rounded-xl text-slate-700 text-xs font-bold flex items-center gap-1"
-              >
-                <Upload className="w-3.5 h-3.5" />
-              </button>
-              <button
-                onClick={openAddTeam}
-                className="px-3.5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>+ Ajouter une Équipe</span>
-              </button>
+              {isAdmin && (
+                <>
+                  <button
+                    onClick={() => setShowImportModal(true)}
+                    title="Importer des équipes"
+                    className="p-2 border border-slate-200 hover:bg-slate-100 rounded-xl text-slate-700 text-xs font-bold flex items-center gap-1"
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={openAddTeam}
+                    className="px-3.5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Ajouter une Équipe</span>
+                  </button>
+                </>
+              )}
             </div>
           ) : (
-            <button
-              onClick={openAddMatch}
-              className="px-3.5 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Programmer un Match</span>
-            </button>
+            isAdmin && (
+              <button
+                onClick={openAddMatch}
+                className="px-3.5 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Programmer un Match</span>
+              </button>
+            )
           )}
         </div>
       </div>
@@ -399,22 +405,24 @@ export default function SaisonTab({ teams, matches, isAdmin, onRefresh }: Saison
                       <div className="text-xs text-slate-500 mt-0.5">Saison {team.season}</div>
                     </div>
 
-                    <div className="flex items-center gap-1 text-slate-400">
-                      <button
-                        onClick={() => openEditTeam(team)}
-                        className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
-                        title="Modifier l'équipe"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteTeam(team.id)}
-                        className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
-                        title="Supprimer l'équipe"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+                    {isAdmin && (
+                      <div className="flex items-center gap-1 text-slate-400">
+                        <button
+                          onClick={() => openEditTeam(team)}
+                          className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
+                          title="Modifier l'équipe"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTeam(team.id)}
+                          className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
+                          title="Supprimer l'équipe"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   {team.captainName && (
@@ -558,22 +566,26 @@ export default function SaisonTab({ teams, matches, isAdmin, onRefresh }: Saison
                         </td>
 
                         <td className="py-3 px-3 text-center">
-                          <div className="flex items-center justify-center gap-1 text-slate-400">
-                            <button
-                              onClick={() => openEditMatch(m)}
-                              className="p-1 hover:bg-sky-50 text-sky-600 rounded transition"
-                              title="Modifier"
-                            >
-                              <Edit className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteMatch(m.id)}
-                              className="p-1 hover:bg-rose-50 text-rose-600 rounded transition"
-                              title="Supprimer"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
+                          {isAdmin ? (
+                            <div className="flex items-center justify-center gap-1 text-slate-400">
+                              <button
+                                onClick={() => openEditMatch(m)}
+                                className="p-1 hover:bg-sky-50 text-sky-600 rounded transition"
+                                title="Modifier"
+                              >
+                                <Edit className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteMatch(m.id)}
+                                className="p-1 hover:bg-rose-50 text-rose-600 rounded transition"
+                                title="Supprimer"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="text-slate-400 text-xs">—</span>
+                          )}
                         </td>
                       </tr>
                     );

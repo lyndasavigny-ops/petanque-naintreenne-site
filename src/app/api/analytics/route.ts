@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { visitLogs } from "@/db/schema";
 import { gte, sql } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
 
 export async function POST(req: NextRequest) {
   try {
+    try {
+      await ensureDatabaseTables();
+    } catch {}
+
     const body = await req.json().catch(() => ({}));
     const page = body.page || "/";
     const userAgent = req.headers.get("user-agent") || "unknown";

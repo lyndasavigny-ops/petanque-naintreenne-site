@@ -179,13 +179,15 @@ export default function ClubTab({ clubInfo, members, isAdmin, onRefresh }: ClubT
             <h3 className="font-extrabold text-slate-800 text-base sm:text-lg">Informations Pratiques du Club</h3>
           </div>
 
-          <button
-            onClick={() => setEditingInfo(!editingInfo)}
-            className="px-3 py-1.5 text-xs font-bold rounded-lg border border-sky-200 text-sky-700 hover:bg-sky-50 transition flex items-center gap-1.5"
-          >
-            <Edit className="w-3.5 h-3.5" />
-            <span>{editingInfo ? "Fermer l'édition" : "Modifier les infos"}</span>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => setEditingInfo(!editingInfo)}
+              className="px-3 py-1.5 text-xs font-bold rounded-lg border border-sky-200 text-sky-700 hover:bg-sky-50 transition flex items-center gap-1.5"
+            >
+              <Edit className="w-3.5 h-3.5" />
+              <span>{editingInfo ? "Fermer l'édition" : "Modifier les infos"}</span>
+            </button>
+          )}
         </div>
 
         {editingInfo ? (
@@ -314,13 +316,15 @@ export default function ClubTab({ clubInfo, members, isAdmin, onRefresh }: ClubT
             <p className="text-xs text-slate-500 mt-0.5">Président, Vice-Président, Secrétaire, Trésorier et Membres</p>
           </div>
 
-          <button
-            onClick={() => openAddMember("bureau")}
-            className="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Ajouter au Bureau</span>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => openAddMember("bureau")}
+              className="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Ajouter au Bureau</span>
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -364,22 +368,24 @@ export default function ClubTab({ clubInfo, members, isAdmin, onRefresh }: ClubT
                 </div>
               )}
 
-              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end gap-1">
-                <button
-                  onClick={() => openEditMember(member)}
-                  className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
-                  title="Modifier"
-                >
-                  <Edit className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleDeleteMember(member.id)}
-                  className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end gap-1">
+                  <button
+                    onClick={() => openEditMember(member)}
+                    className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
+                    title="Modifier"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteMember(member.id)}
+                    className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -396,13 +402,15 @@ export default function ClubTab({ clubInfo, members, isAdmin, onRefresh }: ClubT
             <p className="text-xs text-slate-500 mt-0.5">Officiels FFPJP & Ligue Nouvelle-Aquitaine / Comité 86</p>
           </div>
 
-          <button
-            onClick={() => openAddMember("arbitre")}
-            className="px-3.5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Ajouter un Arbitre</span>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={() => openAddMember("arbitre")}
+              className="px-3.5 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Ajouter un Arbitre</span>
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -446,22 +454,24 @@ export default function ClubTab({ clubInfo, members, isAdmin, onRefresh }: ClubT
                 </div>
               )}
 
-              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end gap-1">
-                <button
-                  onClick={() => openEditMember(arbitre)}
-                  className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
-                  title="Modifier"
-                >
-                  <Edit className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleDeleteMember(arbitre.id)}
-                  className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-end gap-1">
+                  <button
+                    onClick={() => openEditMember(arbitre)}
+                    className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
+                    title="Modifier"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteMember(arbitre.id)}
+                    className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

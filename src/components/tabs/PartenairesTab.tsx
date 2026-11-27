@@ -98,13 +98,15 @@ export default function PartenairesTab({ partners, isAdmin, onRefresh }: Partena
           </div>
         </div>
 
-        <button
-          onClick={openAdd}
-          className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
-        >
-          <Plus className="w-4 h-4" />
-          <span>+ Ajouter un Partenaire</span>
-        </button>
+        {isAdmin && (
+          <button
+            onClick={openAdd}
+            className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Ajouter un Partenaire</span>
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -143,22 +145,24 @@ export default function PartenairesTab({ partners, isAdmin, onRefresh }: Partena
                 <span className="text-slate-400 text-[11px]">Partenaire Officiel</span>
               )}
 
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => openEdit(partner)}
-                  className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
-                  title="Modifier"
-                >
-                  <Edit className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleDelete(partner.id)}
-                  className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => openEdit(partner)}
+                    className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
+                    title="Modifier"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(partner.id)}
+                    className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}

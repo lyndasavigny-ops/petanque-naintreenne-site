@@ -137,13 +137,15 @@ export default function MediaTab({ media, isAdmin, onRefresh }: MediaTabProps) {
             </button>
           </div>
 
-          <button
-            onClick={openAdd}
-            className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Ajouter Photo / Vidéo</span>
-          </button>
+          {isAdmin && (
+            <button
+              onClick={openAdd}
+              className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Ajouter Photo / Vidéo</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -192,22 +194,24 @@ export default function MediaTab({ media, isAdmin, onRefresh }: MediaTabProps) {
                 <span className="text-[11px] text-slate-400">Pétanque Naintreénne</span>
               )}
 
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => openEdit(item)}
-                  className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
-                  title="Modifier"
-                >
-                  <Edit className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => openEdit(item)}
+                    className="p-1.5 hover:bg-sky-50 text-sky-600 rounded-lg transition"
+                    title="Modifier"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="p-1.5 hover:bg-rose-50 text-rose-600 rounded-lg transition"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}

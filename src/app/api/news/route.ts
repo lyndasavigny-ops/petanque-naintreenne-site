@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { newsSlides } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
 
 export async function GET() {
   try {
+    try {
+      await ensureDatabaseTables();
+    } catch {}
     const list = await db.select().from(newsSlides).orderBy(desc(newsSlides.isUrgent), desc(newsSlides.createdAt));
     return NextResponse.json({ success: true, news: list });
   } catch (error) {

@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { players } from "@/db/schema";
 import { eq, desc, and, or, ilike } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
+import { seedDatabase } from "@/db/seed";
 
 export async function GET(req: NextRequest) {
   try {
+    try {
+      await ensureDatabaseTables();
+    } catch {}
     const { searchParams } = new URL(req.url);
     const gender = searchParams.get("gender");
     const category = searchParams.get("category");

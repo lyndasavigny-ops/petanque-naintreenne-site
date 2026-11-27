@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { calendarMatches } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
 
 export async function GET() {
   try {
+    try {
+      await ensureDatabaseTables();
+    } catch {}
     const list = await db.select().from(calendarMatches).orderBy(asc(calendarMatches.matchDate));
     return NextResponse.json({ success: true, matches: list });
   } catch (error) {

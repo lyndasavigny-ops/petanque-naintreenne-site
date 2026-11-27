@@ -2,10 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { clubInfo } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { ensureDatabaseTables } from "@/db/init";
+import { seedDatabase } from "@/db/seed";
 
 export async function GET() {
   try {
-    const list = await db.select().from(clubInfo).limit(1);
+    try {
+      await ensureDatabaseTables();
+    } catch {}
+    let list = await db.select().from(clubInfo).limit(1);
+    if (list.length === 0) {
+      try {
+        await seedDatabase();
+        list = await db.select().from(clubInfo).limit(1);
+      } catch {}
+    }
     if (list.length === 0) {
       return NextResponse.json({
         success: true,
